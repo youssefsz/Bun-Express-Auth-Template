@@ -1,5 +1,6 @@
 import type { Request, Response } from 'express';
 import * as AuthService from '../services/auth.service';
+import type { AuthRequest } from '../middleware/auth.middleware';
 
 export const googleLogin = async (req: Request, res: Response) => {
   try {
@@ -44,5 +45,18 @@ export const logout = async (req: Request, res: Response) => {
     res.json({ message: 'Logged out successfully' });
   } catch (error) {
     res.status(500).json({ error: 'Logout failed' });
+  }
+};
+
+export const me = async (req: AuthRequest, res: Response) => {
+  try {
+    if (!req.user?.userId) {
+      res.status(401).json({ error: 'Unauthorized' });
+      return;
+    }
+    const user = await AuthService.getCurrentUser(req.user.userId);
+    res.json({ user });
+  } catch (error: any) {
+    res.status(401).json({ error: error.message || 'Unauthorized' });
   }
 };

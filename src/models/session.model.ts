@@ -31,3 +31,18 @@ export const deleteSession = async (refreshToken: string): Promise<void> => {
 export const deleteUserSessions = async (userId: string): Promise<void> => {
   await query('DELETE FROM sessions WHERE user_id = $1', [userId]);
 };
+
+export const updateSessionToken = async (
+  currentRefreshToken: string,
+  newRefreshToken: string,
+  expiresAt: Date
+): Promise<Session | null> => {
+  const result = await query(
+    `UPDATE sessions
+     SET refresh_token = $1, expires_at = $2
+     WHERE refresh_token = $3
+     RETURNING *`,
+    [newRefreshToken, expiresAt, currentRefreshToken]
+  );
+  return result.rows[0] || null;
+};

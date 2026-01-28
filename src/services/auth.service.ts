@@ -56,10 +56,31 @@ export const refreshSession = async (refreshToken: string) => {
   }
 
   const newAccessToken = JwtUtils.generateAccessToken(user.id);
-  
-  return { accessToken: newAccessToken };
+  const newRefreshToken = JwtUtils.generateRefreshToken(user.id);
+
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + 7);
+
+  const updatedSession = await SessionModel.updateSessionToken(
+    refreshToken,
+    newRefreshToken,
+    expiresAt
+  );
+  if (!updatedSession) {
+    throw new Error('Invalid Refresh Token');
+  }
+
+  return { accessToken: newAccessToken, refreshToken: newRefreshToken, user };
 };
 
 export const logout = async (refreshToken: string) => {
   await SessionModel.deleteSession(refreshToken);
+};
+
+export const getCurrentUser = async (userId: string) => {
+  const user = await UserModel.findUserById(userId);
+  if (!user) {
+    throw new Error('User not found');
+  }
+  return user;
 };
