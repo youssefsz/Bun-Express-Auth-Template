@@ -50,22 +50,26 @@ export const refreshSession = async (refreshToken: string) => {
     throw new Error('Invalid Refresh Token');
   }
 
-  const user = await UserModel.findUserById(session.user_id);
-  if (!user) {
-    throw new Error('User not found');
-  }
-
-  const newAccessToken = JwtUtils.generateAccessToken(user.id);
-  const newRefreshToken = JwtUtils.generateRefreshToken(user.id);
+  const newAccessToken = JwtUtils.generateAccessToken(session.user_id);
+  const newRefreshToken = JwtUtils.generateRefreshToken(session.user_id);
 
   const expiresAt = new Date();
   expiresAt.setDate(expiresAt.getDate() + 7);
 
-  const updatedSession = await SessionModel.updateSessionToken(
-    refreshToken,
-    newRefreshToken,
-    expiresAt
-  );
+  // Parallelize DB operations to improve performance
+  const [user, updatedSession] = await Promise.all([
+    UserModel.findUserById(session.user_id),
+    SessionModel.updateSessionToken(
+      refreshToken,
+      newRefreshToken,
+      expiresAt
+    )
+  ]);
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
   if (!updatedSession) {
     throw new Error('Invalid Refresh Token');
   }
