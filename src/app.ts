@@ -23,8 +23,28 @@ app.use(hpp());
 // API Versioning
 app.use('/api/v1/auth', authRoutes);
 
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Bun Express Auth Template',
+    creator: 'Youssef Dhibi'
+  });
+});
+
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok' });
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// 404 Handler - Must be the last middleware
+app.use((req, res) => {
+  res.status(404).json({
+    error: 'Not Found',
+    message: `The endpoint ${req.originalUrl} does not exist on this server.`,
+    available_endpoints: {
+      auth: '/api/v1/auth',
+      health: '/health',
+      root: '/'
+    }
+  });
 });
 
 export default app;
