@@ -5,7 +5,8 @@ import type { AuthRequest } from '../middleware/auth.middleware';
 export const googleLogin = async (req: Request, res: Response) => {
   try {
     const { idToken } = req.body;
-    const userAgent = req.headers['user-agent'] || 'Unknown';
+    const userAgentHeader = req.headers['user-agent'];
+    const userAgent = Array.isArray(userAgentHeader) ? userAgentHeader[0] : userAgentHeader || 'Unknown';
     
     if (!idToken) {
       res.status(400).json({ error: 'idToken is required' });
