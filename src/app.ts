@@ -9,6 +9,10 @@ import authRoutes from './routes/auth.routes';
 
 const app = express();
 
+// Trust the first proxy (load balancer)
+// This is required for rate limiting to work correctly when deployed (e.g. Render, AWS)
+app.set('trust proxy', 1);
+
 app.use(morgan('dev'));
 app.use(helmet());
 app.use(cors({
