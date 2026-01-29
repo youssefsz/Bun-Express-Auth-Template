@@ -75,6 +75,17 @@ The server exposes the following authentication endpoints under `/api/v1/auth`:
 - `GET /me`: Retrieves the currently authenticated user's profile information.
 - `DELETE /me`: Permanently deletes the authenticated user's account and associated data.
 
+## Client Configuration (Crucial)
+
+To ensure this server works with both **Web** and **Mobile** (Android/iOS) clients, you must configure your clients correctly:
+
+### Web Client
+- Use the `GOOGLE_CLIENT_ID` from your `.env` file in your frontend Google Sign-In configuration.
+
+### Mobile Client (Android/iOS)
+- When configuring Google Sign-In on mobile, you must set the `serverClientId` (sometimes called `requestIdToken` or `webClientId`) to the **SAME** `GOOGLE_CLIENT_ID` used in your server's `.env`.
+- **Do not** use the Android or iOS specific Client IDs for the token request; those are for the app's identification, but the *token* must be issued for the backend server.
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
@@ -82,3 +93,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Author
 
 Created by [Youssef Dhibi](https://youssef.tn)
+
+[GitHub Repository](https://github.com/youssefsz/bun-express-auth-template)

@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "bun-express-auth-template",
   "scripts": {
     "start": "bun index.ts",
     "dev": "bun --watch index.ts",
