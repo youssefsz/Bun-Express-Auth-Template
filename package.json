@@ -1,5 +1,6 @@
 {
-  "name": "bun-express-auth-template",
+  "name": "invoice-maker-backend",
+  "description": "Backend server for the Invoice Maker Mobile App",
   "scripts": {
     "start": "bun index.ts",
     "dev": "bun --watch index.ts",

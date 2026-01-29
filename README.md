@@ -1,6 +1,6 @@
-# Bun Express Auth Template
+# Invoice Maker Backend
 
-A professional and lightweight authentication server template built with Bun, Express, and PostgreSQL. This project provides a secure foundation for mobile and web applications requiring Google Sign In and JWT based session management.
+The dedicated backend server for the Invoice Maker Mobile App, built with Bun, Express, and PostgreSQL. This server handles authentication, data synchronization, and invoice management.
 
 ## Features
 
@@ -94,4 +94,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 Created by [Youssef Dhibi](https://youssef.tn)
 
-[GitHub Repository](https://github.com/youssefsz/bun-express-auth-template)
+[GitHub Repository](https://github.com/youssefsz/Invoice-Maker-Backend)
+

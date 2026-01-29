@@ -29,7 +29,7 @@ app.use('/api/v1/auth', authRoutes);
 
 app.get('/', (req, res) => {
   res.json({
-    message: 'Bun Express Auth Template',
+    message: 'Invoice Maker Backend',
     creator: 'Youssef Dhibi'
   });
 });
