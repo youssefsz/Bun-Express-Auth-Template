@@ -60,3 +60,16 @@ export const me = async (req: AuthRequest, res: Response) => {
     res.status(401).json({ error: error.message || 'Unauthorized' });
   }
 };
+
+export const deleteAccount = async (req: AuthRequest, res: Response) => {
+  try {
+    if (!req.user?.userId) {
+      res.status(401).json({ error: 'Unauthorized' });
+      return;
+    }
+    await AuthService.deleteAccount(req.user.userId);
+    res.json({ message: 'Account deleted successfully' });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message || 'Delete account failed' });
+  }
+};

@@ -88,3 +88,10 @@ export const getCurrentUser = async (userId: string) => {
   }
   return user;
 };
+
+export const deleteAccount = async (userId: string) => {
+  // Delete all sessions first
+  await SessionModel.deleteUserSessions(userId);
+  // Delete the user
+  await UserModel.deleteUser(userId);
+};
