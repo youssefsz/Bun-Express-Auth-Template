@@ -21,6 +21,29 @@ export const googleLogin = async (req: Request, res: Response) => {
   }
 };
 
+export const appleLogin = async (req: Request, res: Response) => {
+  try {
+    const { authorizationCode, fullName } = req.body;
+    const userAgentHeader = req.headers['user-agent'];
+    const userAgent = Array.isArray(userAgentHeader) ? userAgentHeader[0] : userAgentHeader || 'Unknown';
+
+    if (!authorizationCode) {
+      res.status(400).json({ error: 'authorizationCode is required' });
+      return;
+    }
+
+    const result = await AuthService.loginWithApple(
+      authorizationCode,
+      fullName || null,
+      userAgent
+    );
+    res.json(result);
+  } catch (error: any) {
+    console.error(error);
+    res.status(401).json({ error: error.message || 'Authentication failed' });
+  }
+};
+
 export const refreshToken = async (req: Request, res: Response) => {
   try {
     const { refreshToken } = req.body;

@@ -6,6 +6,7 @@ import { authLimiter } from '../middleware/rateLimiter';
 const router = Router();
 
 router.post('/google', authLimiter, AuthController.googleLogin);
+router.post('/apple', authLimiter, AuthController.appleLogin);
 router.post('/refresh', authLimiter, AuthController.refreshToken);
 router.post('/logout', AuthController.logout);
 router.get('/me', authenticateToken, AuthController.me);
